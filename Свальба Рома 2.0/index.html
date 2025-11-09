@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свадьбу</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- 1. Прелоадер с видеофоном и разблокировкой -->
+    <div id="preloader">
+        <video autoplay muted loop playsinline id="background-video">
+            <!-- Укажите путь к вашему MP4 файлу -->
+            <source src="your_background_video.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео тег.
+        </video>
+        <div class="content">
+            <div id="unlock-text">Разблокировать приглашение</div>
+        </div>
+    </div>
+
+    <!-- Основной контент сайта -->
+    <div class="main-content">
+
+        <!-- 2. Аудио контроль -->
+        <div id="audio-controls">
+            <i id="play-pause-button" class="fas fa-play"></i>
+            <div id="music-label">Включи музыку нашей любви...</div>
+        </div>
+
+        <!-- 3. Текст приглашения -->
+        <div class="section sr-animated">
+            <h2>Дорогие друзья</h2>
+            <p>
+                С огромной радостью и волнением приглашаем вас разделить с нами самый счастливый день – день нашей свадьбы!
+                Мы будем счастливы видеть вас среди наших гостей, чтобы вместе отпраздновать начало нашей семейной жизни.
+                Ваше присутствие станет для нас лучшим подарком!
+            </p>
+        </div>
+
+        <!-- 4. Дата свадьбы -->
+        <div class="section sr-animated">
+            <h3>Мы поженимся</h3>
+            <p class="date-section">
+                <span id="wedding-date" data-date="2026-06-12 12:00:00">12 июня 2026 года</span>
+            </p>
+
+            <!-- 5. Таймер обратного отсчета -->
+            <div class="countdown">
+                <div class="countdown-item">
+                    <span id="days">00</span>
+                    <div>Дней</div>
+                </div>
+                <div class="countdown-item">
+                    <span id="hours">00</span>
+                    <div>Часов</div>
+                </div>
+                <div class="countdown-item">
+                    <span id="minutes">00</span>
+                    <div>Минут</div>
+                </div>
+                <div class="countdown-item">
+                    <span id="seconds">00</span>
+                    <div>Секунд</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Программа -->
+        <div class="section sr-animated">
+            <h3>Программа дня</h3>
+            <ul class="program-list">
+                <li>14:00 - Церемония бракосочетания</li>
+                <li>15:00 - Фотосессия</li>
+                <li>17:00 - Праздничный ужин и вечерняя программа</li>
+                <li>00:00 - Завершение вечера</li>
+            </ul>
+        </div>
+
+        <!-- 7. Место проведения -->
+        <div class="section sr-animated">
+            <h3>Место проведения</h3>
+            <div class="venue-details">
+                <p><strong>Название:</strong> Ресторан "Райские Кущи"</p>
+                <p><strong>Адрес:</strong> ул. Солнечная, д. 10, г. Цветущий Город</p>
+                <p><strong>Как добраться:</strong> <a href="#" target="_blank">Карта</a></p>
+            </div>
+        </div>
+
+        <!-- 8. Дресс-код -->
+        <div class="section sr-animated">
+            <h3>Дресс-код</h3>
+            <div class="dress-code-details">
+                <p>Мы будем рады, если ваш наряд будет соответствовать стилю <strong>"Летний коктейль"</strong>. Акцент на светлые тона и натуральные ткани.</p>
+            </div>
+        </div>
+
+        <!-- 9. Телеграм канал -->
+        <div class="section sr-animated">
+            <a href="https://web.telegram.org/k/#@haremolchat" target="_blank" class="social-link">
+                <i class="fab fa-telegram"></i>
+                Телеграм канал
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Подключение JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollreveal.js/4.0.9/scrollreveal.min.js"></script>
+    <script>
+        // --- КОНФИГУРАЦИЯ ---
+        const weddingDateString = "2026-06-12 12:00:00"; // Формат: ГГГГ-ММ-ДД ЧЧ:ММ:СС
+        const backgroundVideoSrc = "your_background_video.mp4"; // <--- ЗАМЕНИТЕ НА ПУТЬ К ВАШЕМУ ВИДЕО!
+        const telegramChannelLink = "https://web.telegram.org/k/#@haremolchat"; // <--- ЗАМЕНИТЕ НА ССЫЛКУ ВАШЕГО КАНАЛА!
+        // --- КОНЕЦ КОНФИГУРАЦИИ ---
+
+        const preloader = document.getElementById('preloader');
+        const unlockText = document.getElementById('unlock-text');
+        const backgroundVideo = document.getElementById('background-video');
+        const audioControls = document.getElementById('audio-controls');
+        const playPauseButton = document.getElementById('play-pause-button');
+        const mainContent = document.querySelector('.main-content');
+        let loveSong = new Audio('Бонд с кнопкой - Кухни3.mp3'); // <--- ЗАМЕНИТЕ НА ПУТЬ К ВАШЕЙ ПЕСНЕ!
+
+        let isMusicPlaying = false;
+
+        // 1. Настройка фонового видео
+        backgroundVideo.src = backgroundVideoSrc;
+
+        // 2. Разблокировка сайта
+        unlockText.addEventListener('click', () => {
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+                mainContent.style.display = 'block'; // Показываем основной контент
+                document.body.style.overflowY = 'auto'; // Включаем вертикальную прокрутку
+
+                // Запускаем музыку после разблокировки
+                loveSong.play().catch(error => {
+                    console.log("Автоматическое воспроизведение музыки было заблокировано браузером:", error);
+                    // Если автоплей заблокирован, показываем кнопку для ручного включения
+                    audioControls.classList.add('visible');
+                });
+                isMusicPlaying = true;
+                playPauseButton.classList.remove('fa-play');
+                playPauseButton.classList.add('fa-pause');
+
+                // Анимация появления аудио контролов
+                setTimeout(() => {
+                    audioControls.classList.add('visible');
+                }, 500); // Небольшая задержка перед появлением
+
+                // Начинаем анимацию для основного контента
+                ScrollReveal().reveal('.sr-animated', {
+                    delay: 200, // Небольшая задержка перед первой анимацией
+                    distance: '30px',
+                    origin: 'bottom',
+                    interval: 100, // Интервал между анимацией элементов
+                    easing: 'cubic-bezier(0.645, 0.045, 0.355, 1.000)'
+                });
+
+            }, 500); // Соответствует длительности анимации preloader
+        });
+
+        // 3. Управление музыкой
+        playPauseButton.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                loveSong.pause();
+                playPauseButton.classList.remove('fa-pause');
+                playPauseButton.classList.add('fa-play');
+            } else {
+                loveSong.play().catch(error => {
+                    console.log("Воспроизведение музыки было заблокировано:", error);
+                });
+                playPauseButton.classList.remove('fa-play');
+                playPauseButton.classList.add('fa-pause');
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Обработка ошибки при загрузке аудио (на случай, если файл не найден)
+        loveSong.onerror = function() {
+            console.error("Ошибка загрузки аудиофайла:", loveSong.src);
+            audioControls.style.display = 'none'; // Скрываем, если ошибка
+        };
+
+        // 4. Таймер обратного отсчета
+        function updateCountdown() {
+            const weddingDate = new Date(weddingDateString).getTime();
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").textContent = days < 10 ? "0" + days : days;
+            document.getElementById("hours").textContent = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").textContent = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").textContent = seconds < 10 ? "0" + seconds : seconds;
+
+            // Если дата прошла
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector('.countdown').innerHTML = "Событие состоялось!";
+            }
+        }
+
+        // Инициализация основного контента и скрытие при загрузке
+        mainContent.style.display = 'none'; // Скрываем основной контент до разблокировки
+        document.body.style.overflowY = 'hidden'; // Скрываем прокрутку до разблокировки
+
+        // Обновляем таймер каждую секунду
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown(); // Вызываем один раз при загрузке, чтобы избежать задержки
+
+        // 5. Обновление ссылки на телеграм
+        document.querySelector('.social-link').href = telegramChannelLink;
+
+        // 6. Обработка видео для мобильных (muted, playsinline)
+        backgroundVideo.setAttribute('muted', '');
+        backgroundVideo.setAttribute('playsinline', '');
+
+        // Попытка автовоспроизведения аудио при загрузке (может быть заблокировано браузером)
+        // Это позволит музыке начать играть сразу, если браузер разрешает.
+        loveSong.play().then(() => {
+            isMusicPlaying = true;
+            playPauseButton.classList.remove('fa-play');
+            playPauseButton.classList.add('fa-pause');
+            audioControls.classList.add('visible');
+        }).catch(error => {
+            console.log("Автоматическое воспроизведение музыки было заблокировано браузером при загрузке:", error);
+            // Если автоплей заблокирован, показываем кнопку для ручного включения после разблокировки
+            // Это обрабатывается в обработчике клика на unlockText
+        });
+
+    </script>
+
+</body>
+</html>
