@@ -108,7 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Ошибка загрузки аудиофайла:", loveSong.src);
         audioControls.style.display = 'none'; // Скрываем блок управления музыкой, если файл не найден
     };
-
+    let countdownInterval;
+    
     // 4. Таймер обратного отсчета
     function updateCountdown() {
         const weddingDate = new Date(weddingDateString).getTime();
@@ -136,8 +137,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Устанавливаем начальное значение таймера и запускаем обновление каждую секунду
+    
     updateCountdown(); // Вызываем один раз сразу, чтобы избежать задержки
-    const countdownInterval = setInterval(updateCountdown, 1000);
+    countdownInterval = setInterval(updateCountdown, 1000);
+    
 
     // 5. Обновление ссылки на телеграм
     telegramLinkElement.href = telegramChannelLink;
